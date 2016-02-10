@@ -1,0 +1,259 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CB7280511C6B5B5100E687A2 /* test_METER.c in Sources */ = {isa = PBXBuildFile; fileRef = CB7280501C6B5B5100E687A2 /* test_METER.c */; };
+		CBE9DEB21C6B3F39005EF979 /* METER.c in Sources */ = {isa = PBXBuildFile; fileRef = CBE9DEB01C6B3F39005EF979 /* METER.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CBE9DEA41C6B3EE6005EF979 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		CB7280501C6B5B5100E687A2 /* test_METER.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_METER.c; sourceTree = "<group>"; };
+		CBE9DEA61C6B3EE6005EF979 /* METER */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = METER; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBE9DEB01C6B3F39005EF979 /* METER.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = METER.c; sourceTree = "<group>"; };
+		CBE9DEB11C6B3F39005EF979 /* METER.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = METER.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CBE9DEA31C6B3EE6005EF979 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CBE9DE9D1C6B3EE6005EF979 = {
+			isa = PBXGroup;
+			children = (
+				CBE9DEA81C6B3EE6005EF979 /* METER */,
+				CBE9DEA71C6B3EE6005EF979 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CBE9DEA71C6B3EE6005EF979 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CBE9DEA61C6B3EE6005EF979 /* METER */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CBE9DEA81C6B3EE6005EF979 /* METER */ = {
+			isa = PBXGroup;
+			children = (
+				CBE9DEB01C6B3F39005EF979 /* METER.c */,
+				CBE9DEB11C6B3F39005EF979 /* METER.h */,
+				CB7280501C6B5B5100E687A2 /* test_METER.c */,
+			);
+			path = METER;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CBE9DEA51C6B3EE6005EF979 /* METER */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CBE9DEAD1C6B3EE6005EF979 /* Build configuration list for PBXNativeTarget "METER" */;
+			buildPhases = (
+				CBE9DEA21C6B3EE6005EF979 /* Sources */,
+				CBE9DEA31C6B3EE6005EF979 /* Frameworks */,
+				CBE9DEA41C6B3EE6005EF979 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = METER;
+			productName = METER;
+			productReference = CBE9DEA61C6B3EE6005EF979 /* METER */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CBE9DE9E1C6B3EE6005EF979 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Sebastian Behrens";
+				TargetAttributes = {
+					CBE9DEA51C6B3EE6005EF979 = {
+						CreatedOnToolsVersion = 7.2;
+					};
+				};
+			};
+			buildConfigurationList = CBE9DEA11C6B3EE6005EF979 /* Build configuration list for PBXProject "METER" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CBE9DE9D1C6B3EE6005EF979;
+			productRefGroup = CBE9DEA71C6B3EE6005EF979 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CBE9DEA51C6B3EE6005EF979 /* METER */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CBE9DEA21C6B3EE6005EF979 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CBE9DEB21C6B3F39005EF979 /* METER.c in Sources */,
+				CB7280511C6B5B5100E687A2 /* test_METER.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CBE9DEAB1C6B3EE6005EF979 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		CBE9DEAC1C6B3EE6005EF979 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		CBE9DEAE1C6B3EE6005EF979 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				HEADER_SEARCH_PATHS = pigpio/PIGPIO/;
+				OTHER_CFLAGS = "";
+				"OTHER_CFLAGS[arch=*]" = "-I../pigpio/PIGPIO/";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CBE9DEAF1C6B3EE6005EF979 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				HEADER_SEARCH_PATHS = pigpio/PIGPIO/;
+				OTHER_CFLAGS = "";
+				"OTHER_CFLAGS[arch=*]" = "-I../pigpio/PIGPIO/";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CBE9DEA11C6B3EE6005EF979 /* Build configuration list for PBXProject "METER" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CBE9DEAB1C6B3EE6005EF979 /* Debug */,
+				CBE9DEAC1C6B3EE6005EF979 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CBE9DEAD1C6B3EE6005EF979 /* Build configuration list for PBXNativeTarget "METER" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CBE9DEAE1C6B3EE6005EF979 /* Debug */,
+				CBE9DEAF1C6B3EE6005EF979 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CBE9DE9E1C6B3EE6005EF979 /* Project object */;
+}
