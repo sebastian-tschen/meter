@@ -168,6 +168,7 @@ void write_rrd(uint32_t pos, uint32_t tick){
     rrd_clear_error();
     rrd_update(3, updateparams);
     
+    printf("writing %d to rdd\n",pos);
     
 }
 
