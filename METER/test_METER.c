@@ -124,8 +124,8 @@ static void initOpts(int argc, char *argv[])
                 else fatal("invalid -s option (%s)", optarg);
                 break;
             case 'f':
-                optRRDFile = malloc(sizeof(optarg)+1);
-                if (optRRDFile) strcpy(optRRDFile,optarg);
+                optRRDFile = malloc(sizeof(optarg) +1);
+                if (optRRDFile) strcpy(optRRDFile, optarg);
                 break;
             case 't':
                 i = getNum(optarg, &err);
@@ -148,12 +148,6 @@ static void initOpts(int argc, char *argv[])
                 exit(-1);
         }
     }
-}
-
-long tickToSystime(uint32_t tick){
-    
-    return tick;
-    
 }
 void write_rrd(uint32_t pos, uint32_t tick){
     
