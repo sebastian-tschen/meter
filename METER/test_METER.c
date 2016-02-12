@@ -157,9 +157,9 @@ long tickToSystime(uint32_t tick){
 }
 void write_rrd(uint32_t pos, uint32_t tick){
     
-    char str[256];
+    char *str = malloc(sizeof(char) * 1024);
     sprintf(str, "N:%2uid", pos);
-    char *data =calloc(1,strlen(str)+1);
+    char *data=malloc(strlen(str)+1);
     strcpy(data,str);
     
     char *updateparams[] = {
