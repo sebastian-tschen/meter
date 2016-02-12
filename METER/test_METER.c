@@ -123,23 +123,23 @@ static void initOpts(int argc, char *argv[])
                 if (i >= 0) optSeconds = (i*1000);
                 else fatal("invalid -s option (%s)", optarg);
                 break;
-            case 'f':
-                optRRDFile = malloc(sizeof(optarg) +1);
-                if (optRRDFile) strcpy(optRRDFile, optarg);
-                break;
             case 't':
                 i = getNum(optarg, &err);
-                if (i >= 0) optRRDSeconds = i;
+                if (i >= 0) optRRDSeconds = (i*1000);
                 else fatal("invalid -t option (%s)", optarg);
                 break;
                 
+            case 'f':
+                optRRDFile = malloc(strlen(optarg) +1);
+                if (optRRDFile) strcpy(optRRDFile, optarg);
+                break;
             case 'h':
-                optHost = malloc(sizeof(optarg)+1);
+                optHost = malloc(strlen(optarg)+1);
                 if (optHost) strcpy(optHost, optarg);
                 break;
                 
             case 'p':
-                optPort = malloc(sizeof(optarg)+1);
+                optPort = malloc(strlen(optarg)+1);
                 if (optPort) strcpy(optPort, optarg);
                 break;
                 
@@ -149,6 +149,7 @@ static void initOpts(int argc, char *argv[])
         }
     }
 }
+
 void write_rrd(uint32_t pos, uint32_t tick){
     
     char *str = malloc(sizeof(char) * 1024);
