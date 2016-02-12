@@ -35,7 +35,7 @@ static void _cb(
     if (level != PI_TIMEOUT)
     {
         self->meter_value++;
-        (self->cb)(self->meter_value);
+        (self->cb)(self->meter_value,tick);
     }
 }
 
