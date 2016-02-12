@@ -175,11 +175,11 @@ void write_rrd(uint32_t pos, uint32_t tick){
 
 void cbf(uint32_t pos, uint32_t tick)
 {
-    if (tick<lastTick || (tick - lastTick)<optRRDSeconds){
-        
+    int tickDiff = tick - lastTick;
+    if (tick<lastTick || (tickDiff)>optRRDSeconds){
         write_rrd(pos,tick);
+        lastTick = tick;
     }
-    lastTick = tick;
     printf("%d\n", pos);
 }
 
