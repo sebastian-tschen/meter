@@ -125,7 +125,7 @@ static void initOpts(int argc, char *argv[])
                 break;
             case 't':
                 i = getNum(optarg, &err);
-                if (i >= 0) optRRDSeconds = (i*1000);
+                if (i >= 0) optRRDSeconds = (i*1000000);
                 else fatal("invalid -t option (%s)", optarg);
                 break;
                 
