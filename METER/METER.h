@@ -7,7 +7,7 @@
 #ifndef METER_H
 #define METER_H
 
-typedef void (*METER_CB_t)(uint32_t);
+typedef void (*METER_CB_t)(uint32_t,uint32_t);
 
 struct _METER_s;
 
