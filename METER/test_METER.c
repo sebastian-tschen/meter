@@ -14,6 +14,8 @@
 
 #include "METER.h"
 
+#include <rrd.h>
+
 /*
  
  REQUIRES
@@ -61,6 +63,8 @@ void usage()
             "   -v value, startValue, uint32,            default 0\n" \
             "   -g value, glitch filter setting, 0-5000, default 1\n" \
             "   -s value, run seconds, >=0 (0=forever),  default 0\n" \
+            "   -t value, seconds between rrd-writes     default 10\n"\
+            "   -f value, rrd file to write to           default NULL\n"\
             "   -h string, host name,                    default NULL\n" \
             "   -p value, socket port, 1024-32000,       default 8888\n" \
             "EXAMPLE\n" \
@@ -72,8 +76,12 @@ int optGpio = -1;
 int optGlitch = 1;
 uint32_t optStartMeterValue=0;
 int optSeconds = 0;
+int optRRDSeconds = 10000;
+char *optRRDFile = NULL;
 char *optHost   = NULL;
 char *optPort   = NULL;
+
+uint32_t lastTick=0;
 
 static uint64_t getNum(char *str, int *err)
 {
@@ -90,7 +98,7 @@ static void initOpts(int argc, char *argv[])
 {
     int opt, err, i;
     
-    while ((opt = getopt(argc, argv, "a:v:g:s:h:p:")) != -1)
+    while ((opt = getopt(argc, argv, "a:v:f:g:t:s:h:p:")) != -1)
     {
         switch (opt)
         {
@@ -112,8 +120,17 @@ static void initOpts(int argc, char *argv[])
                 
             case 's':
                 i = getNum(optarg, &err);
-                if (i >= 0) optSeconds = i;
+                if (i >= 0) optSeconds = (i*1000);
                 else fatal("invalid -s option (%s)", optarg);
+                break;
+            case 'f':
+                optRRDFile = malloc(sizeof(optarg)+1);
+                if (optRRDFile) strcpy(optRRDFile,optarg);
+                break;
+            case 't':
+                i = getNum(optarg, &err);
+                if (i >= 0) optRRDSeconds = i;
+                else fatal("invalid -t option (%s)", optarg);
                 break;
                 
             case 'h':
@@ -133,9 +150,40 @@ static void initOpts(int argc, char *argv[])
     }
 }
 
+long tickToSystime(uint32_t tick){
+    
+    return tick;
+    
+}
+void write_rrd(uint32_t pos, uint32_t tick){
+    
+    char str[256];
+    sprintf(str, "N:%2uid", pos);
+    char *data =calloc(1,strlen(str)+1);
+    strcpy(data,str);
+    
+    char *updateparams[] = {
+        "rrdupdate",
+        optRRDFile,
+        data,
+        NULL
+    };
+    
+    optind = opterr = 0;
+    rrd_clear_error();
+    rrd_update(3, updateparams);
+    
+    
+}
 
-void cbf(uint32_t pos)
+
+void cbf(uint32_t pos, uint32_t tick)
 {
+    if (tick<lastTick || (tick - lastTick)<optRRDSeconds){
+        
+        write_rrd(pos,tick);
+    }
+    lastTick = tick;
     printf("%d\n", pos);
 }
 
