@@ -153,7 +153,7 @@ static void initOpts(int argc, char *argv[])
 void write_rrd(uint32_t pos, uint32_t tick){
     
     char *str = malloc(sizeof(char) * 1024);
-    sprintf(str, "N:%2uid", pos);
+    sprintf(str, "N:%d", pos);
     char *data=malloc(strlen(str)+1);
     strcpy(data,str);
     
@@ -175,7 +175,7 @@ void write_rrd(uint32_t pos, uint32_t tick){
 
 void cbf(uint32_t pos, uint32_t tick)
 {
-    int tickDiff = tick - lastTick;
+    uint32_t tickDiff = tick - lastTick;
     if (tick<lastTick || (tickDiff)>optRRDSeconds){
         write_rrd(pos,tick);
         lastTick = tick;
