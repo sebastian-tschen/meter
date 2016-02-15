@@ -64,8 +64,10 @@ void usage()
             "   -v value, startValue, uint32,            default 0\n" \
             "   -g value, glitch filter setting, 0-5000, default 1\n" \
             "   -s value, run seconds, >=0 (0=forever),  default 0\n" \
-            "   -t value, seconds between rrd-writes     default 10\n"\
+            "   -t value, seconds between rrd-writes     default 60\n"\
             "   -f value, rrd file to write to           default NULL\n"\
+            "   -d value, seconds between db-writes      default 3600\n"\
+            "   -m mysql-connection-string               default NULL\n"\
             "   -h string, host name,                    default NULL\n" \
             "   -p value, socket port, 1024-32000,       default 8888\n" \
             "EXAMPLE\n" \
@@ -77,14 +79,20 @@ int optGpio = -1;
 int optGlitch = 1;
 uint32_t optStartMeterValue=0;
 int optSeconds = 0;
-int optRRDSeconds = 10000;
+int optRRDSeconds = 60;
+int optDBSeconds = 3600;
 char *optRRDFile = NULL;
+char *optMyConnectionString = NULL;
 char *optHost   = NULL;
 char *optPort   = NULL;
 
-int64_t lastTick=0;
+int64_t lastRRDTick =0;
+int64_t lastDBTick =0;
 
 struct timeval te;
+
+void write_db(uint32_t value);
+
 uint32_t currentMeterValue;
 
 
@@ -106,7 +114,7 @@ static void initOpts(int argc, char *argv[])
 {
     int opt, err, i;
     
-    while ((opt = getopt(argc, argv, "a:v:f:g:t:s:h:p:")) != -1)
+    while ((opt = getopt(argc, argv, "a:v:f:g:t:d:m:s:h:p:")) != -1)
     {
         switch (opt)
         {
@@ -133,10 +141,19 @@ static void initOpts(int argc, char *argv[])
                 break;
             case 't':
                 i = getNum(optarg, &err);
-                if (i >= 0) optRRDSeconds = (i*1000000);
+                if (i >= 0) optRRDSeconds = (i);
                 else fatal("invalid -t option (%s)", optarg);
                 break;
-                
+            case 'd':
+                i = getNum(optarg, &err);
+                if (i >= 0) optDBSeconds = (i);
+                else fatal("invalid -t option (%s)", optarg);
+                break;
+
+            case 'm':
+                optMyConnectionString = malloc(strlen(optarg) + 1);
+                if (optMyConnectionString) strcpy(optMyConnectionString, optarg);
+                break;
             case 'f':
                 optRRDFile = malloc(strlen(optarg) +1);
                 if (optRRDFile) strcpy(optRRDFile, optarg);
@@ -210,13 +227,21 @@ int main(int argc, char *argv[])
         else while(1) {
             sleep(optRRDSeconds+5);
             gettimeofday(&te, NULL);
-            int64_t tick = te.tv_sec;
-            
-            int64_t tickDiff = tick - lastTick;
-            if (tick<lastTick || (tickDiff)>optRRDSeconds){
+            int64_t tick_sec = te.tv_sec;
+
+            int64_t rrdTickDiff = tick_sec - lastRRDTick;
+            if (tick_sec < lastRRDTick || (rrdTickDiff) > optRRDSeconds){
                 write_rrd(currentMeterValue);
-                lastTick = tick;
+                lastRRDTick = tick_sec;
             }
+
+            int64_t dbTickDiff = tick_sec - lastDBTick;
+            if (tick_sec < lastDBTick || (dbTickDiff) > optDBSeconds){
+                write_db(currentMeterValue);
+                lastDBTick = tick_sec;
+            }
+
+
             fflush(stdout);
         }
         
@@ -225,5 +250,10 @@ int main(int argc, char *argv[])
         pigpio_stop(pi);
     }
     return 0;
+}
+
+void write_db(uint32_t value) {
+//TODO
+    sprintf("not writing to DB",NULL);
 }
 
