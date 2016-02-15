@@ -9,7 +9,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <unistd.h>
-#include <time.h>
+#include <sys/time.h>
 
 #include <pigpiod_if2.h>
 
@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
         if (optSeconds) sleep(optSeconds);
         else while(1) {
             sleep(60);
-            gettimeofday(te, <#void *restrict#>);
+            gettimeofday(&te, NULL);
             int64_t tick = te.tv_sec;
             
             int64_t tickDiff = tick - lastTick;
