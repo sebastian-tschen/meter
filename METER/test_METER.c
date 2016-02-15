@@ -254,6 +254,6 @@ int main(int argc, char *argv[])
 
 void write_db(uint32_t value) {
 //TODO
-    sprintf(stdout,"not writing to db\n");
+    printf("not writing to db\n");
 }
 
