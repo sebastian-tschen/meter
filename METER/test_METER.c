@@ -208,7 +208,7 @@ int main(int argc, char *argv[])
         
         if (optSeconds) sleep(optSeconds);
         else while(1) {
-            sleep(60);
+            sleep(optRRDSeconds+5);
             gettimeofday(&te, NULL);
             int64_t tick = te.tv_sec;
             
