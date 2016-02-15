@@ -9,6 +9,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 
 #include <pigpiod_if2.h>
 
@@ -81,13 +82,20 @@ char *optRRDFile = NULL;
 char *optHost   = NULL;
 char *optPort   = NULL;
 
-uint32_t lastTick=0;
+int64_t lastTick=0;
+
+struct timeval te;
+uint32_t currentMeterValue;
+
+
+
+
 
 static uint64_t getNum(char *str, int *err)
 {
     uint64_t val;
     char *endptr;
-    
+
     *err = 0;
     val = strtoll(str, &endptr, 0);
     if (*endptr) {*err = 1; val = -1;}
@@ -150,10 +158,10 @@ static void initOpts(int argc, char *argv[])
     }
 }
 
-void write_rrd(uint32_t pos, uint32_t tick){
+void write_rrd(uint32_t pos){
     
     char *str = malloc(sizeof(char) * 1024);
-    sprintf(str, "N:%2uid", pos);
+    sprintf(str, "N:%d", pos);
     char *data=malloc(strlen(str)+1);
     strcpy(data,str);
     
@@ -175,12 +183,8 @@ void write_rrd(uint32_t pos, uint32_t tick){
 
 void cbf(uint32_t pos, uint32_t tick)
 {
-    int tickDiff = tick - lastTick;
-    if (tick<lastTick || (tickDiff)>optRRDSeconds){
-        write_rrd(pos,tick);
-        lastTick = tick;
-    }
-    printf("%d\n", pos);
+    currentMeterValue=pos;
+    printf("%1d @ %2d\n", pos,tick);
 }
 
 int main(int argc, char *argv[])
@@ -205,6 +209,14 @@ int main(int argc, char *argv[])
         if (optSeconds) sleep(optSeconds);
         else while(1) {
             sleep(60);
+            gettimeofday(te, <#void *restrict#>);
+            int64_t tick = te.tv_sec;
+            
+            int64_t tickDiff = tick - lastTick;
+            if (tick<lastTick || (tickDiff)>optRRDSeconds){
+                write_rrd(currentMeterValue);
+                lastTick = tick;
+            }
             fflush(stdout);
         }
         
