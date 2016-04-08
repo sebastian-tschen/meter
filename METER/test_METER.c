@@ -268,6 +268,7 @@ void write_rrd_socket(uint32_t pos){
     */
 
 
+    printf("connected");
 
     /* Send message to the server */
     n=write(sockfd, data, strlen(data));
