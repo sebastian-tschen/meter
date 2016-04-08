@@ -216,6 +216,8 @@ void write_rrd(uint32_t pos){
 
 void write_rrd_socket(uint32_t pos){
 
+    printf("start writing rdd\n");
+    fflush(stdout);
 
     char *str = malloc(sizeof(char) * 1024);
     sprintf(str, "update %1$s N:%2$d", optRRDFile, pos);
@@ -287,7 +289,9 @@ void write_rrd_socket(uint32_t pos){
 
     printf("%s\n",buffer);
     close(sockfd);
+    fflush(stdout);
     return;
+
 
 
 }
