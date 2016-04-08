@@ -218,7 +218,7 @@ void write_rrd_socket(uint32_t pos){
 
 
     char *str = malloc(sizeof(char) * 1024);
-    sprintf(str, "update N:%d", pos);
+    sprintf(str, "update %1$s N:%2$d", optRRDFile, pos);
     char *data=malloc(strlen(str)+1);
     strcpy(data,str);
 
