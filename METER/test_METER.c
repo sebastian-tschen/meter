@@ -11,6 +11,9 @@
 #include <unistd.h>
 #include <sys/time.h>
 
+#include <netdb.h>
+#include <netinet/in.h>
+
 #include <pigpiod_if2.h>
 
 #include "METER.h"
@@ -70,6 +73,8 @@ void usage()
             "   -m mysql-connection-string               default NULL\n"\
             "   -h string, host name,                    default NULL\n" \
             "   -p value, socket port, 1024-32000,       default 8888\n" \
+            "   -r string, rrd server host name,                    default NULL\n" \
+            "   -b value, rrd socket port, 1024-32000,       default 13900\n" \
             "EXAMPLE\n" \
             "METER -a10 -b12\n" \
             "   Read a rotary encoder connected to GPIO 10/12.\n\n");
@@ -84,7 +89,9 @@ int optDBSeconds = 3600;
 char *optRRDFile = NULL;
 char *optMyConnectionString = NULL;
 char *optHost   = NULL;
-char *optPort   = NULL;
+char *optPort   = "8888";
+char *optRRDHost   = NULL;
+char *optRRDPort   = "13900";
 
 int64_t lastRRDTick =0;
 int64_t lastDBTick =0;
@@ -114,7 +121,7 @@ static void initOpts(int argc, char *argv[])
 {
     int opt, err, i;
     
-    while ((opt = getopt(argc, argv, "a:v:f:g:t:d:m:s:h:p:")) != -1)
+    while ((opt = getopt(argc, argv, "a:b:r:v:f:g:t:d:m:s:h:p:")) != -1)
     {
         switch (opt)
         {
@@ -167,7 +174,17 @@ static void initOpts(int argc, char *argv[])
                 optPort = malloc(strlen(optarg)+1);
                 if (optPort) strcpy(optPort, optarg);
                 break;
-                
+
+            case 'r':
+                optRRDHost = malloc(strlen(optarg)+1);
+                if (optRRDHost) strcpy(optRRDHost, optarg);
+                break;
+
+            case 'b':
+                optRRDPort = malloc(strlen(optarg)+1);
+                if (optRRDPort) strcpy(optRRDPort, optarg);
+                break;
+
             default: /* '?' */
                 usage();
                 exit(-1);
@@ -196,6 +213,85 @@ void write_rrd(uint32_t pos){
     printf("writing %d to rdd\n",pos);
     
 }
+
+void write_rrd_socket(uint32_t pos){
+
+
+    char *str = malloc(sizeof(char) * 1024);
+    sprintf(str, "update N:%d", pos);
+    char *data=malloc(strlen(str)+1);
+    strcpy(data,str);
+
+
+    int sockfd,portno,n;
+    struct sockaddr_in serv_addr;
+    struct hostent *server;
+
+    char buffer[256];
+    portno = atoi(optRRDPort);
+
+    /* Create a socket point */
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
+
+
+    if (sockfd < 0) {
+        perror("ERROR opening socket");
+        return;
+    }
+
+    server = gethostbyname(optRRDHost);
+
+    if (server == NULL) {
+        fprintf(stderr,"ERROR, no such host\n");
+        return;
+    }
+
+    bzero((char *) &serv_addr, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
+    serv_addr.sin_port = htons(portno);
+
+    /* Now connect to the server */
+    if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
+        perror("ERROR connecting");
+        close(sockfd);
+        return;
+    }
+
+    /* Now ask for a message from the user, this message
+       * will be read by server
+    */
+
+
+
+    /* Send message to the server */
+    n=write(sockfd, data, strlen(data));
+
+    if (n < 0) {
+        perror("ERROR writing to socket");
+        close(sockfd);
+        return;
+    }
+
+    /* Now read server response */
+    bzero(buffer,256);
+    n = read(sockfd, buffer, 255);
+
+    if (n < 0) {
+        perror("ERROR reading from socket");
+        close(sockfd);
+        return;
+    }
+
+
+    printf("%s\n",buffer);
+    close(sockfd);
+    return;
+
+
+}
+
 
 
 void cbf(uint32_t pos, uint32_t tick)
@@ -231,7 +327,7 @@ int main(int argc, char *argv[])
 
             int64_t rrdTickDiff = tick_sec - lastRRDTick;
             if (tick_sec < lastRRDTick || (rrdTickDiff) > optRRDSeconds){
-                write_rrd(currentMeterValue);
+                write_rrd_socket(currentMeterValue);
                 lastRRDTick = tick_sec;
             }
 
