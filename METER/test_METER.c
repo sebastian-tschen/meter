@@ -220,7 +220,7 @@ void write_rrd_socket(uint32_t pos){
     fflush(stdout);
 
     char *str = malloc(sizeof(char) * 1024);
-    sprintf(str, "update %1$s N:%2$d", optRRDFile, pos);
+    sprintf(str, "update %s N:%d", optRRDFile, pos);
     char *data=malloc(strlen(str)+1);
     strcpy(data,str);
 
@@ -254,7 +254,7 @@ void write_rrd_socket(uint32_t pos){
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(portno);
 
-    sprintf(stdout,"trying to connect to server %1$s : %2$d", optRRDHost, portno);
+    printf("trying to connect to server %s : %d", optRRDHost, portno);
 
     /* Now connect to the server */
     if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
