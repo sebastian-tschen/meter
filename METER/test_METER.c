@@ -238,7 +238,7 @@ void write_rrd_socket(uint32_t pos){
 
 
     if (sockfd < 0) {
-        printf("ERROR opening socket");
+        printf("ERROR opening socket\n");
         return;
     }
 
@@ -254,7 +254,7 @@ void write_rrd_socket(uint32_t pos){
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(portno);
 
-    printf("trying to connect to server %s : %d", optRRDHost, portno);
+    printf("trying to connect to server %s:%d\n", optRRDHost, portno);
 
     /* Now connect to the server */
     if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
@@ -268,7 +268,7 @@ void write_rrd_socket(uint32_t pos){
     */
 
 
-    printf("connected");
+    printf("connected\n");
 
     /* Send message to the server */
     n=write(sockfd, data, strlen(data));
@@ -357,6 +357,6 @@ int main(int argc, char *argv[])
 
 void write_db(uint32_t value) {
 //TODO
-    printf("not writing to db\n");
+    printf("writing to db not yet implemented\n");
 }
 
