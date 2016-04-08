@@ -220,7 +220,7 @@ void write_rrd_socket(uint32_t pos){
     fflush(stdout);
 
     char *str = malloc(sizeof(char) * 1024);
-    sprintf(str, "update %s N:%d", optRRDFile, pos);
+    sprintf(str, "update %s N:%d\n", optRRDFile, pos);
     char *data=malloc(strlen(str)+1);
     strcpy(data,str);
 
