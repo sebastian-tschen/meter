@@ -93,6 +93,13 @@ char *optPort   = "8888";
 char *optRRDHost   = NULL;
 char *optRRDPort   = "13900";
 
+
+
+int sockfd=-1;
+int n;
+struct sockaddr_in serv_addr;
+struct hostent *server;
+
 int64_t lastRRDTick =0;
 int64_t lastDBTick =0;
 
@@ -214,39 +221,25 @@ void write_rrd(uint32_t pos){
     
 }
 
-void write_rrd_socket(uint32_t pos){
+int getSocketNew(){
 
-    printf("start writing rdd\n");
-    fflush(stdout);
-
-    char *str = malloc(sizeof(char) * 1024);
-    sprintf(str, "update %s N:%d\n", optRRDFile, pos);
-    char *data=malloc(strlen(str)+1);
-    strcpy(data,str);
-
-
-    int sockfd,portno,n;
-    struct sockaddr_in serv_addr;
-    struct hostent *server;
-
-    char buffer[256];
-    portno = atoi(optRRDPort);
+    int portno = atoi(optRRDPort);
 
     /* Create a socket point */
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    int newsockfd = socket(AF_INET, SOCK_STREAM, 0);
 
 
 
-    if (sockfd < 0) {
+    if (newsockfd < 0) {
         printf("ERROR opening socket\n");
-        return;
+        return-1;
     }
 
     server = gethostbyname(optRRDHost);
 
     if (server == NULL) {
         printf("ERROR, no such host\n");
-        return;
+        return -1;
     }
 
     bzero((char *) &serv_addr, sizeof(serv_addr));
@@ -257,18 +250,59 @@ void write_rrd_socket(uint32_t pos){
     printf("trying to connect to server %s:%d\n", optRRDHost, portno);
 
     /* Now connect to the server */
-    if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
+    if (connect(newsockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
         printf("ERROR connecting");
-        close(sockfd);
+        close(newsockfd);
+        return -1;
+    }
+
+    printf("connected\n");
+    return newsockfd;
+}
+
+void initSocket() {
+
+
+    if (sockfd < 0) {
+        sockfd=getSocketNew();
+    }
+
+    int error = 0;
+    socklen_t len = sizeof (error);
+    int retval = getsockopt (socket_fd, SOL_SOCKET, SO_ERROR, &error, &len);
+
+    if (retval != 0) {
+        /* there was a problem getting the error code */
+        fprintf(stderr, "error getting socket error code: %s\n", strerror(retval));
         return;
     }
 
-    /* Now ask for a message from the user, this message
-       * will be read by server
-    */
+    if (error != 0) {
+        /* socket has a non zero error status */
+        fprintf(stderr, "socket error: %s\n", strerror(error));
+        close(sockfd);
+        sockfd=getSocketNew();
+    }
 
+}
 
-    printf("connected\n");
+void write_rrd_socket(uint32_t pos){
+
+    printf("start writing rdd\n");
+    fflush(stdout);
+
+    char *str = malloc(sizeof(char) * 1024);
+    sprintf(str, "update %s N:%d\n", optRRDFile, pos);
+    char *data=malloc(strlen(str)+1);
+    strcpy(data,str);
+
+    char buffer[256];
+
+    int error = 0;
+    socklen_t len = sizeof (error);
+    int retval = getsockopt (sockfd, SOL_SOCKET, SO_ERROR, &error, &len);
+    initSocket();
+
 
     /* Send message to the server */
     n=write(sockfd, data, strlen(data));
@@ -290,12 +324,9 @@ void write_rrd_socket(uint32_t pos){
     }
 
 
-    printf("%s\n",buffer);
-    close(sockfd);
+    printf("%s",buffer);
     fflush(stdout);
     return;
-
-
 
 }
 
