@@ -254,6 +254,8 @@ void write_rrd_socket(uint32_t pos){
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(portno);
 
+    sprintf(stdout,"trying to connect to server %1$s : %2$d", optRRDHost, portno);
+
     /* Now connect to the server */
     if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
         printf("ERROR connecting");
