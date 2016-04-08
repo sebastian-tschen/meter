@@ -236,14 +236,14 @@ void write_rrd_socket(uint32_t pos){
 
 
     if (sockfd < 0) {
-        perror("ERROR opening socket");
+        printf("ERROR opening socket");
         return;
     }
 
     server = gethostbyname(optRRDHost);
 
     if (server == NULL) {
-        fprintf(stderr,"ERROR, no such host\n");
+        printf("ERROR, no such host\n");
         return;
     }
 
@@ -254,7 +254,7 @@ void write_rrd_socket(uint32_t pos){
 
     /* Now connect to the server */
     if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
-        perror("ERROR connecting");
+        printf("ERROR connecting");
         close(sockfd);
         return;
     }
@@ -269,7 +269,7 @@ void write_rrd_socket(uint32_t pos){
     n=write(sockfd, data, strlen(data));
 
     if (n < 0) {
-        perror("ERROR writing to socket");
+        printf("ERROR writing to socket");
         close(sockfd);
         return;
     }
@@ -279,7 +279,7 @@ void write_rrd_socket(uint32_t pos){
     n = read(sockfd, buffer, 255);
 
     if (n < 0) {
-        perror("ERROR reading from socket");
+        printf("ERROR reading from socket");
         close(sockfd);
         return;
     }
