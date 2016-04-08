@@ -298,12 +298,6 @@ void write_rrd_socket(uint32_t pos){
 
     char buffer[256];
 
-    int error = 0;
-    socklen_t len = sizeof (error);
-    int retval = getsockopt (sockfd, SOL_SOCKET, SO_ERROR, &error, &len);
-    initSocket();
-
-
     /* Send message to the server */
     n=write(sockfd, data, strlen(data));
 
