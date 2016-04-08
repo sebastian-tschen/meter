@@ -269,7 +269,7 @@ void initSocket() {
 
     int error = 0;
     socklen_t len = sizeof (error);
-    int retval = getsockopt (socket_fd, SOL_SOCKET, SO_ERROR, &error, &len);
+    int retval = getsockopt (sockfd, SOL_SOCKET, SO_ERROR, &error, &len);
 
     if (retval != 0) {
         /* there was a problem getting the error code */
