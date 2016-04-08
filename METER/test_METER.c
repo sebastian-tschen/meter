@@ -297,7 +297,7 @@ void write_rrd_socket(uint32_t pos){
     strcpy(data,str);
 
     char buffer[256];
-
+    initSocket();
     /* Send message to the server */
     n=write(sockfd, data, strlen(data));
 
